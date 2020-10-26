@@ -7,74 +7,84 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
-
+    <title>{{ config('app.name', 'Kunnec') }}</title>
+    <meta name="description" content="Kunnec is everything all in one. We value your privacy, freedom of speech and your data belongs to you. We don't sell your data to third parties.
+    ">
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- GOOGLE Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-107694954-1">
+    </script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-107694954-1');
+    </script>
+    
+    <!-- GOOGLE TRANSLATE -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() { 
+            new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/bootstrap.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/main.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.12.0/css/all.css">
+    @yield('additional-css')
 </head>
 <body>
-    <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
-            <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
-                </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav mr-auto">
-
-                    </ul>
-
-                    <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ml-auto">
-                        <!-- Authentication Links -->
-                        @guest
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                            </li>
-                            @if (Route::has('register'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                                </li>
-                            @endif
-                        @else
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }} <span class="caret"></span>
-                                </a>
-
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
-                                    </a>
-
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                        @csrf
-                                    </form>
-                                </div>
-                            </li>
-                        @endguest
-                    </ul>
-                </div>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <a class="navbar-brand d-flex align-items-center" href="{{ route('landing') }}">
+            <div class="navbar_brand">
             </div>
-        </nav>
+            <div class="text-white">
+                Kunnec
+            </div>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse"  id="navbarTogglerDemo02">
+            <ul class="navbar-nav mr-auto mt-2 mb-lg-2">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#"> <span class="sr-only"></span></a>
+                </li>
+            </ul>
+        </div>
+        <div id="google_translate_element">
+        </div>
+        <div class="form-inline my-2 my-lg-0">
+            <form action="{{ route('landing') }}" method="post">
+                {{ csrf_field() }}
+                <input class="form-control mr-sm-2" type="search" placeholder="Email" name="email" value="{{ old('email') }}" required autofocus>
+                <input class="form-control mr-sm-2 my-2" type="password" placeholder="Password"  name="password" required>
+                <button class="btn btn-danger mr-2" type="submit">Sign In</button>
+            </form>
+            @if(Request::segment(1) !='register')
+                <a href="{{ url('/register') }}"><button class="btn btn-warning mr-2" type="button"><font color="#FFFFFF">Sign Up</font></button>
+                </a>
+            @endif
+                <button class="terms" type="button"><a href="{{ route('password.request') }}"><font color="FFFFFF">Forgot Password?</font></a></button>
+        </div>
 
-        <main class="py-4">
-            @yield('content')
-        </main>
-    </div>
+    </nav><!-- End of Navbar-->
+    @yield('content')
+    <!-- Scripts -->
+    <script src="{{ asset('js/jquery-3.5.1.js') }}" defer></script>
+    <script src="{{ asset('js/popper.min.js') }}" defer></script>
+    <script src="{{ asset('js/bootstrap.min.js') }}" defer></script>
+    <script src="{{ asset('js/jquery.bootstrap.wizard.min.js') }}" defer></script>    
+    <script src="{{ asset('js/all.min.js') }}" defer></script>
+    @yield('additional-js')
 </body>
 </html>

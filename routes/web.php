@@ -11,9 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'LandingPageController@showLandingPage')->name('landing');
 
 Auth::routes(['verify' => true]);
 
