@@ -17,6 +17,7 @@ class CreateUsersTable extends Migration
             $table->bigIncrements('id');
             $table->string('first_name')->comment("First Name");
             $table->string('last_name')->comment("Last Name");
+            $table->string('username')->unique()->comment("UserID");
             $table->string('dob')->comment("Day of birthday, format:YYYY-mm-dd");
             $table->tinyInteger('gender')->comment("Gender, 0: female, 1: male");
             $table->tinyInteger('plan')->comment("User Membership");
@@ -25,6 +26,7 @@ class CreateUsersTable extends Migration
             $table->integer('state')->unsigned()->comment("Unsigned Integer. User's state Id in state table");
             $table->integer('country')->unsigned()->comment("Unsigned Integer. User's country Id in country table");
             $table->string('email')->unique()->comment("user's email unique identifier for user");
+            $table->string('image')->comment("user Image Path");
             $table->timestamp('email_verified_at')->nullable()->comment("user email verification status");
             $table->string('password')->comment("user's password encrypted by hash");
             $table->rememberToken();

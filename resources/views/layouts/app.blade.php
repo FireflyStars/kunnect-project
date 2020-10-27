@@ -7,7 +7,6 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Kunnec') }}</title>
     <meta name="description" content="Kunnec is everything all in one. We value your privacy, freedom of speech and your data belongs to you. We don't sell your data to third parties.
     ">
     <!-- Scripts -->
@@ -64,7 +63,7 @@
         <div id="google_translate_element">
         </div>
         <div class="form-inline my-2 my-lg-0">
-            <form action="{{ route('landing') }}" method="post">
+            <form action="{{ route('login') }}" method="post">
                 {{ csrf_field() }}
                 <input class="form-control mr-sm-2" type="search" placeholder="Email" name="email" value="{{ old('email') }}" required autofocus>
                 <input class="form-control mr-sm-2 my-2" type="password" placeholder="Password"  name="password" required>
@@ -80,11 +79,7 @@
     </nav><!-- End of Navbar-->
     @yield('content')
     <!-- Scripts -->
-    <script src="{{ asset('js/jquery-3.5.1.js') }}" defer></script>
-    <script src="{{ asset('js/popper.min.js') }}" defer></script>
-    <script src="{{ asset('js/bootstrap.min.js') }}" defer></script>
-    <script src="{{ asset('js/jquery.bootstrap.wizard.min.js') }}" defer></script>    
-    <script src="{{ asset('js/all.min.js') }}" defer></script>
+    <script src="{{ asset('js/app.js') }}"></script>
     @yield('additional-js')
 </body>
 </html>

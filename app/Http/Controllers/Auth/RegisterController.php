@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Auth;
+use App\State;
+use App\City;
 
 class RegisterController extends Controller
 {
@@ -50,9 +52,17 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
+            'first_name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
+            'username' => ['required', 'string', 'unique:users'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'gender' => ['required', 'integer'],
+            'plan' => ['required', 'number'],
+            'city' => ['required', 'number'],
+            'state' => ['required', 'number'],
+            'country' => ['required', 'number'],
+            'dob' => ['required', 'string']
         ]);
     }
 
@@ -65,15 +75,32 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         return User::create([
-            'name' => $data['name'],
+            'first_name' => $data['first_name'],
+            'last_name' => $data['last_name'],
             'email' => $data['email'],
+            'city' => $data['city'],
+            'state' => $data['state'],
+            'country' => $data['country'],
+            'dob' => $data['dob'],
+            'gender' => $data['gender'],
+            'role' => 0,
+            'plan' => $data['plan'],
             'password' => Hash::make($data['password']),
         ]);
     }
 
     protected function redirectTo()
     {
-        
         return '/home';
-    }    
+    }
+    
+    public function sendStatesByCountry($id){
+        $states = State::where('country_id', $id)->select(['name', 'id'])->get();
+        return response()->json(['states'=> $states]);
+    }
+
+    public function sendCitiesByState($id){
+        $cities = City::where('state_id', $id)->select(['name', 'id'])->get();
+        return response()->json(['cities'=> $cities]);
+    }
 }

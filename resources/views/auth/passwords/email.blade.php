@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('additional-css')
+    <title>Password Reset</title>
     <link href="{{ asset('css/log_sign.css') }}" rel="stylesheet">
 @endsection
 @section('content')
