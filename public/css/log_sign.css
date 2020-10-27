@@ -59,3 +59,12 @@ h5{
 .form-check-input{
   margin-top: .4rem;
 }
+.username-container{
+  position: relative;
+}
+#username-spinner{
+  position: absolute;
+  color: #009900 !important;
+  top: .7rem;
+  right: .7rem;  
+}

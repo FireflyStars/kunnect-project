@@ -65,7 +65,7 @@
         <div class="form-inline my-2 my-lg-0">
             <form action="{{ route('login') }}" method="post">
                 {{ csrf_field() }}
-                <input class="form-control mr-sm-2" type="search" placeholder="Email" name="email" value="{{ old('email') }}" required autofocus>
+                <input class="form-control mr-sm-2" type="search" placeholder="Username Or Email" name="email" value="{{ old('email') }}" required autofocus>
                 <input class="form-control mr-sm-2 my-2" type="password" placeholder="Password"  name="password" required>
                 <button class="btn btn-danger mr-2" type="submit">Sign In</button>
             </form>

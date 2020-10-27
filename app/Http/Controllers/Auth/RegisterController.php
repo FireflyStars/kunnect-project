@@ -7,7 +7,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
-use Illuminate\Support\Facades\Auth;
 use App\State;
 use App\City;
 
@@ -31,7 +30,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/dashboard';
 
     /**
      * Create a new controller instance.
@@ -58,10 +57,10 @@ class RegisterController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'gender' => ['required', 'integer'],
-            'plan' => ['required', 'number'],
-            'city' => ['required', 'number'],
-            'state' => ['required', 'number'],
-            'country' => ['required', 'number'],
+            'plan' => ['required', 'integer'],
+            'city' => ['required', 'integer'],
+            'state' => ['required', 'integer'],
+            'country' => ['required', 'integer'],
             'dob' => ['required', 'string']
         ]);
     }
@@ -74,9 +73,11 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        // dd("perfect");
         return User::create([
             'first_name' => $data['first_name'],
             'last_name' => $data['last_name'],
+            'username' => $data['username'],
             'email' => $data['email'],
             'city' => $data['city'],
             'state' => $data['state'],
@@ -88,11 +89,6 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
         ]);
     }
-
-    protected function redirectTo()
-    {
-        return '/home';
-    }
     
     public function sendStatesByCountry($id){
         $states = State::where('country_id', $id)->select(['name', 'id'])->get();
@@ -102,5 +98,18 @@ class RegisterController extends Controller
     public function sendCitiesByState($id){
         $cities = City::where('state_id', $id)->select(['name', 'id'])->get();
         return response()->json(['cities'=> $cities]);
+    }
+
+    /**
+     * check username 
+     * @param username
+     * 
+     * @return  TRUE|False 
+     */
+    public function checkUsername($username){
+        if(User::where('username', $username)->count())
+            return response()->json(['exist'=> true]);
+        else
+            return response()->json(['exist'=> false]);
     }
 }

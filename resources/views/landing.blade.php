@@ -465,7 +465,7 @@
                     <span><img class="mx-auto d-block" src="images/K_Logo6.png" alt="" width="100" /></span>
                 </div>
                 <div class="modal-body text-center">
-                    <video width="100%" controls><source src="{{asset('images/k_intro.mp4')}}" type="video/mp4"> </video>
+                    <video width="100%" controls><source src="{{asset('images/k_intro_1.mp4')}}" type="video/mp4"> </video>
                     <p class="mb-5">The data you upload, belongs to you. We do have guidelines that are specified in our terms of agreement about the specification of the data uploaded. Please read our terms. Your data will be deleted from our site, once your account is closed. We have a notification message in the top toolbar of you kunnec account, to inform you how many days are left in your account. The day before your account ends, we will send you a notification email explaining all your data will be deleted from our site. If you choose a monthly plan, your data will remain for that month. To continue having your data posted, you must re-new your plan. If you choose a yearly plan, your data will remain for that year. To continue having your data posted, you must re-new your plan before your expiration date.</p>
                     <div class="modal-footer nav justify-content-center">
                         <button type="button" class="btn btn-success close-modal" data-dismiss="modal">Close</button>
@@ -791,10 +791,15 @@
 @section('additional-js')
 <script>
     $(document).ready(function(){
-        // pause video when you close the modal
-        $('.close-modal').click(function(){
-            $(this).parent().siblings()[0].pause();
-        });
+        // autoplay video when the modal is shown
+        // $(".modal").on('show.bs.modal', function (e) {
+        //     $(this).find('video')[0].play();
+        // });        
+
+        // pause video when the modal is hidden
+        $(".modal").on('hide.bs.modal', function (e) {
+            $(this).find('video')[0].pause();
+        });        
     })
 </script>
 @endsection

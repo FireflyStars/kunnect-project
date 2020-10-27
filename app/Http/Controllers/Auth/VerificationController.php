@@ -42,7 +42,9 @@ class VerificationController extends Controller
 
     protected function redirectTo()
     {
-        
-        return '/home';
+        if(Auth::user()->role == 1)
+            return '/admin';
+        else
+            return '/dashboard';
     }
 }

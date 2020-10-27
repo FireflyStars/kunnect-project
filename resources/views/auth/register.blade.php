@@ -17,24 +17,24 @@
                 <div class="card-body">
                     <h5>Account Information</h5>
                     <hr class="style12">
-                    <form method="POST" action="{{ route('register') }}">
+                    <form method="POST" id="signup-form" action="{{ route('register') }}">
                         @csrf
 
                         <div class="form-group row">
                             <div class="col-md-6 mb-2">
-                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" placeholder="First Name" required autocomplete="name" required autofocus>
+                                <input id="first_name" type="text" class="form-control @error('first_name') is-invalid @enderror" name="first_name" value="{{ old('first_name') }}" placeholder="First Name" required autocomplete="name" required autofocus>
 
-                                @error('name')
-                                    <span class="invalid-feedback" role="alert">
+                                @error('first_name')
+                                    <span class="invalid-feedback d-block" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
                             </div>
                             <div class="col-md-6">
-                                <input id="lastname" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" placeholder="Last Name" required>
+                                <input id="lastname" type="text" class="form-control @error('last_name') is-invalid @enderror" name="last_name" value="{{ old('last_name') }}" placeholder="Last Name" required>
 
-                                @error('name')
-                                    <span class="invalid-feedback" role="alert">
+                                @error('last_name')
+                                    <span class="invalid-feedback d-block" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
@@ -43,20 +43,25 @@
 
                         <div class="form-group row">
                             <div class="col-md-6 mb-2">
-                                    <input id="username" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" placeholder="Username" required>
-
-                                    @error('name')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
+                                <div class="username-container">
+                                    <input id="username" type="text" class="form-control @error('username') is-invalid @enderror" name="username" value="{{ old('username') }}" placeholder="Username" required>
+                                    <div id="username-spinner" class="spinner-border spinner-border-sm d-none"></div>
+                                </div>
+                                <span class="invalid-feedback" id="username-exist" role="alert">
+                                    <strong>username already exists</strong>
+                                </span>
+                                @error('username')
+                                    <span class="invalid-feedback d-block" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                             </div>
 
                             <div class="col-md-6">
                                 <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" placeholder="Email"required autocomplete="email" required>
 
                                 @error('email')
-                                    <span class="invalid-feedback" role="alert">
+                                    <span class="invalid-feedback d-block" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
@@ -68,7 +73,7 @@
                                  <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" placeholder="Password" required autocomplete="new-password" required>
 
                                  @error('password')
-                                     <span class="invalid-feedback" role="alert">
+                                     <span class="invalid-feedback d-block" role="alert">
                                          <strong>{{ $message }}</strong>
                                      </span>
                                  @enderror
@@ -80,15 +85,15 @@
 
                          <div class="form-group row">
                              <div class="col-md-6 mb-2">
-                                 <input class="date form-control" placeholder="Date of Birth" id="dob" type="text" required>
+                                 <input class="date form-control" name="dob" placeholder="Date of Birth" id="dob" type="text" required>
                              </div>
-
                              <div class="col-md-6">
-                                 <select class="form-control" name="gender" id="gender" required>
-                                 <option value="">Gender</option>
-                                     <option value="male">Male</option>
-                                     <option value="female">Female</option>
+                                <select class="form-control" name="gender" id="gender" required>
+                                    <option value="">Gender</option>
+                                    <option value="1">Male</option>
+                                    <option value="0">Female</option>
                                  </select>
+
                              </div>
                          </div>
 
@@ -97,22 +102,35 @@
 
                          <div class="form-group row">
                              <div class="col-md-4 mb-2">
-                             <select class="form-control text-capitalize" name="country" id="country" required>
-                                <option value="0" class="text-capitalize">Country</option>
-                                @foreach($countries as $country)
-                                    <option value="{{ $country->id }}" class="text-capitalize">{{ $country->name }}</option>
-                                @endforeach
-                            </select>
+                                <select class="form-control text-capitalize" name="country" id="country"  required>
+                                    <option value="0" class="text-capitalize">Country</option>
+                                    @foreach($countries as $country)
+                                        @if($country->id == old('country'))
+                                            <option value="{{ $country->id }}" class="text-capitalize" selected>{{ $country->name }}</option>
+                                        @else
+                                            <option value="{{ $country->id }}" class="text-capitalize">{{ $country->name }}</option>
+                                        @endif
+                                    @endforeach
+                                </select>
+                                <span class="invalid-feedback" id="country-empty" role="alert">
+                                    <strong>Please Choose Country</strong>
+                                </span>
                              </div>
                             <div class="col-md-4 mb-2">
                                 <select class="form-control text-capitalize" name="state" id="state" required>
-                                <option value="0">State</option>
+                                    <option value="0">State</option>
                                 </select>
+                                <span class="invalid-feedback" id="state-empty" role="alert">
+                                    <strong>Please Choose State</strong>
+                                </span>                                
                             </div>
                             <div class="col-md-4">
                                 <select class="form-control text-capitalize" name="city" id="city" required>
                                     <option value="0">City</option>
                                 </select>
+                                <span class="invalid-feedback" id="city-empty" role="alert">
+                                    <strong>Please Choose State</strong>
+                                </span>                                  
                             </div>
                         </div>
 
@@ -122,14 +140,14 @@
                         <div class="form-group row">
                             <div class="col-md-6 mb-2">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked required>
-                                    <label class="form-check-label" for="exampleRadios1">$7.99 per month.</label>
+                                    <input class="form-check-input" type="radio" name="plan" id="normal-plan" value="0" checked>
+                                    <label class="form-check-label" for="normal-plan">$7.99 per month.</label>
                                 </div>
                             </div>
                             <div class="col-md-6 mb-2">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
-                                    <label class="form-check-label" for="exampleRadios2">$74.99 per year. </label>
+                                    <input class="form-check-input" type="radio" name="plan" id="glod-plan" value="1">
+                                    <label class="form-check-label" for="glod-plan">$74.99 per year. </label>
                                 </div>
                             </div>
                         </div>
@@ -140,8 +158,8 @@
                        <div class="form-group row">
                            <div class="col-md-12 mb-2">
                                <div class="form-check">
-                                   <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" required>
-                                   <label class="form-check-label" for="defaultCheck1">
+                                   <input class="form-check-input" name="terms" type="checkbox" value="" id="terms" required>
+                                   <label class="form-check-label" for="terms">
                                        I have read and agree with the <a data-toggle="modal" href="#tmModal">Terms of Agreement</a> and <a data-toggle="modal" href="#pvcModal">Privacy Policy</a> by Kunnec.com.
                                    </label>
                                </div>
@@ -150,7 +168,7 @@
 
                        <div class="form-group row mb-0">
                            <div class="col-md-6 offset-md-5">
-                               <button type="submit" class="btn btn-success btn-lg">
+                               <button type="submit" class="btn btn-success btn-lg text-uppercase">
                                    {{ __('Sign Up') }}
                                </button>
                            </div>
@@ -168,6 +186,12 @@
 <script>
     var getStatesUrl = "{{ route('landing') }}"+"/states/";
     var getCitiesUrl = "{{ route('landing') }}"+"/cities/";
+    var oldState = "{{old('state')}}";
+    var oldCity = "{{old('city')}}";
+    var oldCountry = "{{old('country')}}";
+    var oldGender = "{{old('gender')}}";
+    var oldPlan = "{{old('plan')}}";
+    var oldDOB = "{{old('dob')}}"
 </script>
 <script src="{{ asset('js/pages/signup.js') }}"></script>
 @endsection

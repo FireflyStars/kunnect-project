@@ -21,6 +21,7 @@ hr.hmpg_ln {
 .cursor-pointer{
   cursor: pointer ! important;
 }
+  
 /* logo in navbar */
 .navbar_brand{
 	background-image: url('../images/K_Logo6.png');
